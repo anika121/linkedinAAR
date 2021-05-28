@@ -304,6 +304,17 @@ const SocialActions = styled.div`
 		width: 29px;
 		margin-right: 8px;
 	}
+
+	@media (max-width: 397px) {
+		& > button:last-child{
+			display: none;
+		}
+	}
+	@media (max-width: 313px) {
+		& > button:nth-child(3){
+			display: none;
+		}
+	}
 `;
 
 export default Main;

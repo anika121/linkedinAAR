@@ -179,6 +179,10 @@ const NavListWrap = styled.ul`
 			border-color: rgba(0, 0, 0, 0.9);
 		}
 	}
+
+	@media (max-width: 493px) {
+		display: none;
+	}
 `;
 
 const NavList = styled.li`

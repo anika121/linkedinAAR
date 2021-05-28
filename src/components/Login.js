@@ -43,6 +43,12 @@ const Nav = styled.nav`
 	justify-content: space-between;
 	flex-wrap: nowrap;
 
+	@media (max-width: 373px) {
+		& > a {
+			display: none;
+		}
+	}
+
 	& > a {
 		width: 135px;
 		height: 34px;
