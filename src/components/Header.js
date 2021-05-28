@@ -218,15 +218,24 @@ const NavList = styled.li`
 
 const SignOut = styled.div`
 	position: absolute;
-	top: 45px;
-	background: white;
-	border-radius: 0 0 5px 5px;
-	width: 100px;
-	height: 40px;
-	font-size: 16px;
-	transition-duration: 167ms;
-	text-align: center;
-	display: none;
+    top: 45px;
+    box-shadow: rgb(0 0 0 / 10%) 0px 0px 0px 1px, rgb(0 0 0 / 20%) 0px 4px 6px;
+    background: white;
+    border-radius: 0px 0px 5px 5px;
+    width: 100px;
+    height: 40px;
+    font-size: 16px;
+    transition-duration: 167ms;
+    text-align: center;
+    display: none;
+    cursor: pointer;
+	color: #0a66c2;
+
+	& > a:hover {
+		color: #0a66c2;
+		text-decoration: underline;
+		text-decoration-color: #0a66c2;
+	}
 `;
 
 const User = styled(NavList)`
