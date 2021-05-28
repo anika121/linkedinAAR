@@ -23,7 +23,7 @@ const Main = (props) => {
 					</button>
 					<button>
 						<img src="/images/article-icon.png" alt="" />
-						<span>Article</span>
+						<span>Write Article</span>
 					</button>
 				</div>
 			</ShareBox>

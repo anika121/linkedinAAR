@@ -96,6 +96,7 @@ const FeedList = styled.ul`
 			max-width: 480px;
 			text-align: center;
 			outline: none;
+			border: 1px solid grey;
 		}
 	}
 `;
