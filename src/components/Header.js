@@ -1,3 +1,4 @@
+import { connect } from "react-redux";
 import styled from "styled-components";
 
 const Header = (props) => {
@@ -59,9 +60,13 @@ const Header = (props) => {
 
 						<User>
 							<a>
-								<img src="/images/user.svg" alt="" />
+								{props.user && props.user.photoURL ? (
+									<img src={props.user.photoURL} alt="" />
+								) : (
+									<img src="/images/user.svg" />
+								)}
 								<span>
-									<span>Me</span>
+									Me
 									<img src="/images/down-icon.svg" alt="" />
 								</span>
 							</a>
@@ -222,17 +227,17 @@ const NavList = styled.li`
 
 const SignOut = styled.div`
 	position: absolute;
-    top: 45px;
-    box-shadow: rgb(0 0 0 / 10%) 0px 0px 0px 1px, rgb(0 0 0 / 20%) 0px 4px 6px;
-    background: white;
-    border-radius: 0px 0px 5px 5px;
-    width: 100px;
-    height: 40px;
-    font-size: 16px;
-    transition-duration: 167ms;
-    text-align: center;
-    display: none;
-    cursor: pointer;
+	top: 45px;
+	box-shadow: rgb(0 0 0 / 10%) 0px 0px 0px 1px, rgb(0 0 0 / 20%) 0px 4px 6px;
+	background: white;
+	border-radius: 0px 0px 5px 5px;
+	width: 100px;
+	height: 40px;
+	font-size: 16px;
+	transition-duration: 167ms;
+	text-align: center;
+	display: none;
+	cursor: pointer;
 	color: #0a66c2;
 
 	& > a:hover {
@@ -269,4 +274,14 @@ const Work = styled(User)`
 	border-left: 1px solid rgba(0, 0, 0, 0.08);
 `;
 
-export default Header;
+const mapStateToProps = (state) => {
+	return {
+		user: state.userState.user
+	}
+}
+
+const mapDispatchToProps = (dispatch) => ({
+
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
