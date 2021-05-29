@@ -1,9 +1,12 @@
 import { connect } from "react-redux";
+import { Redirect } from "react-router";
 import styled from "styled-components";
+import { signOutAPI } from "../redux/actions";
 
 const Header = (props) => {
 	return (
 		<Container>
+			{props.user === null && <Redirect to="/" />}
 			<Content>
 				<Logo>
 					<a href="/home">
@@ -71,7 +74,7 @@ const Header = (props) => {
 								</span>
 							</a>
 
-							<SignOut>
+							<SignOut onClick={() => props.signOut()}>
 								<a>Sign Out</a>
 							</SignOut>
 						</User>
@@ -281,7 +284,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-
+	signOut: () => dispatch(signOutAPI()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
