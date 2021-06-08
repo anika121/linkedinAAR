@@ -1,7 +1,10 @@
-import { useState } from "react";
 import styled from "styled-components";
 import ReactPlayer from "react-player";
+import firebase from "firebase";
 import { connect } from "react-redux";
+import { useState } from "react";
+
+import { postArticleAPI } from "../redux/actions";
 
 function PostModal(props) {
 	const [editorText, setEditorText] = useState("");
@@ -23,6 +26,25 @@ function PostModal(props) {
 		setShareImage("");
 		setVideoLink("");
 		setAssetArea(area);
+	};
+
+	const postArticle = (e) => {
+		e.preventDefault();
+		if (e.target !== e.currentTarget) {
+			console.log("Hi")
+			return;
+		}
+
+		const payload = {
+			image: shareImage,
+			video: videoLink,
+			user: props.user,
+			description: editorText,
+			timestamp: firebase.firestore.Timestamp.now(),
+		};
+
+		props.postArticle(payload);
+		reset(e);
 	};
 
 	const reset = (e) => {
@@ -62,7 +84,7 @@ function PostModal(props) {
 									placeholder=" What do you want to talk about?"
 									autoFocus={true}
 								/>
-								{ assetArea === "image" ? (
+								{assetArea === "image" ? (
 									<UploadImage>
 										<input
 											type="file"
@@ -85,38 +107,45 @@ function PostModal(props) {
 											/>
 										)}
 									</UploadImage>
-								) : assetArea === "media" && (
-								<>
-									<input
-										type="text"
-										placeholder="URL for video to share"
-										value={videoLink}
-										onChange={(e) =>
-											setVideoLink(e.target.value)
-										}
-										style={{
-											width: "100%",
-											height: "30px",
-											fontSize: "14px",
-											outlineColor: "#0a66c2",
-											marginBottom: "10px",
-										}}
-									/>
-									{videoLink && (
-										<ReactPlayer
-											width={"100%"}
-											url={videoLink}
-										/>
-									)}
-								</>)}
+								) : (
+									assetArea === "media" && (
+										<>
+											<input
+												type="text"
+												placeholder="URL for video to share"
+												value={videoLink}
+												onChange={(e) =>
+													setVideoLink(e.target.value)
+												}
+												style={{
+													width: "100%",
+													height: "30px",
+													fontSize: "14px",
+													outlineColor: "#0a66c2",
+													marginBottom: "10px",
+												}}
+											/>
+											{videoLink && (
+												<ReactPlayer
+													width={"100%"}
+													url={videoLink}
+												/>
+											)}
+										</>
+									)
+								)}
 							</Editor>
 						</SharedContent>
 						<SharedCreation>
 							<AttachAssets>
-								<AssetButton onClick={() => switchAssetArea("image")}>
+								<AssetButton
+									onClick={() => switchAssetArea("image")}
+								>
 									<img src="/images/share-image.png" alt="" />
 								</AssetButton>
-								<AssetButton onClick={() => switchAssetArea("media")}>
+								<AssetButton
+									onClick={() => switchAssetArea("media")}
+								>
 									<img src="/images/share-video.png" alt="" />
 								</AssetButton>
 							</AttachAssets>
@@ -133,7 +162,7 @@ function PostModal(props) {
 								</AssetButton>
 							</ShareComment>
 
-							<PostButton disabled={!editorText ? true : false}>
+							<PostButton disabled={!editorText ? true : false} onClick={(event) => postArticle(event)}>
 								Post
 							</PostButton>
 						</SharedCreation>
@@ -270,6 +299,11 @@ const ShareComment = styled.div`
 	padding-left: 8px;
 	margin-right: auto;
 	border-left: 1px solid rgba(0, 0, 0, 0.15);
+	& > ${ AssetButton } > img {
+		width: 30px !important;
+		height: 27px !important;
+		margin-right: 8px;
+	}
 `;
 
 const PostButton = styled.button`
@@ -322,12 +356,12 @@ const UploadImage = styled.div`
 
 const mapStateToProps = (state) => {
 	return {
-		user: state.userState.user
-	}
-}
+		user: state.userState.user,
+	};
+};
 
 const mapDispatchToProps = (dispatch) => ({
-
-})
+	postArticle: (payload) => dispatch(postArticleAPI(payload))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostModal);
